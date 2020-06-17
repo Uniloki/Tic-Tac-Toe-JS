@@ -2,7 +2,8 @@ let currentValues = ['','','',
                     '','','',
                     '','',''];
 
-
+let gameMode = 0;
+let gameWon = false;
 
 let a1 = document.getElementById('a1');
 let a2 = document.getElementById('a2');
@@ -23,9 +24,33 @@ let ca = document.getElementById('ca');
 let cb = document.getElementById('cb');
 let cc = document.getElementById('cc');
 
+let playerScoreText = document.getElementById('player1');
+let computerScoreText = document.getElementById('player2')
+let playerScore = 0;
+let computerScore = 0;
 let gameText = document.getElementById('gameText');
 let isWon = false;
 let counter = 0;
+
+let selectScreen = document.getElementById('gameSelect');
+let playerStart = document.getElementById('playerStart');
+let computerStart = document.getElementById('computerStart');
+
+function gameMode1(){
+    gameMode = 1;
+    selectScreen.style.display = 'none';
+}
+function gameMode2(){
+    gameMode = 2;
+    selectScreen.style.display = 'none';
+}
+playerStart.addEventListener("click", function(){
+    gameMode1();
+});
+computerStart.addEventListener("click", function(){
+    gameMode2();
+});
+
 function playMove(clicked,value){
 if(currentValues[value] != 'X' && currentValues[value] != 'O') {
     let player;
@@ -50,6 +75,33 @@ if(currentValues[value] != 'X' && currentValues[value] != 'O') {
     }
 }
 }
+function playMove2(clicked,value){
+    if (gameWon === true){
+        clearBoard();
+    }
+    gameWon= false;
+    if(currentValues[value] != 'X' && currentValues[value] != 'O') {
+    player = 'X';
+    currentValues[value] = 'X'
+    gameText.textContent = ""
+            //Test code to clear game text
+    let newText = currentValues[value];
+    clicked.textContent = newText;
+    counter++;
+    console.log(currentValues[0] + currentValues[1] + currentValues[2] );
+    winGame('X');
+    console.log (gameWon);
+    console.log(counter);
+    if (gameWon === false){
+        randomComp();
+    }
+    if(counter === 9){
+        tiedGame();
+        winGame('X');
+        clearBoard();
+    }
+}
+    }
 
 function clearBoard(){
     a1.textContent = '';
@@ -76,25 +128,30 @@ function winGame(currentVal){
     let column3 = currentValues[2] + currentValues[5] + currentValues[8];
     let diagon1 = currentValues[0] + currentValues[4] + currentValues[8];
     let diagon2 = currentValues[2] + currentValues[4] + currentValues[6];
-    if(row1 == "XXX"    ||
-       row1 == "OOO"    ||
-       row2 == "XXX"    ||
-       row2 == "OOO"    ||
-       row3 == "XXX"    ||
-       row3 == "OOO"    ||
-       column1 == "XXX" ||
-       column1 == "OOO" ||
-       column2 == "XXX" ||
-       column2 == "OOO" ||
-       column3 == "XXX" ||
-       column3 == "OOO" ||
-       diagon1 == "XXX" ||
-       diagon1 == "OOO" ||
-       diagon2 == "XXX" ||
-       diagon2 == "OOO" 
+    if(row1 === "XXX"    ||
+       row1 === "OOO"    ||
+       row2 === "XXX"    ||
+       row2 === "OOO"    ||
+       row3 === "XXX"    ||
+       row3 === "OOO"    ||
+       column1 === "XXX" ||
+       column1 === "OOO" ||
+       column2 === "XXX" ||
+       column2 === "OOO" ||
+       column3 === "XXX" ||
+       column3 === "OOO" ||
+       diagon1 === "XXX" ||
+       diagon1 === "OOO" ||
+       diagon2 === "XXX" ||
+       diagon2 === "OOO" 
        ){
         gameText.textContent = `${currentVal} wins!`
-        clearBoard();
+        gameWon = true;
+        if (currentVal === 'X'){
+            scoreTrack('player');
+        } if (currentVal === 'O'){
+            scoreTrack('computer');
+        }
     }
 }
 
@@ -105,20 +162,79 @@ function tiedGame(){
 
 
 aa.addEventListener("click",function () {
-    playMove(a1,0) } );
+    if(gameMode === 1){
+        playMove(a1,0) } 
+        else if(gameMode === 2){
+            playMove2(a1,0) }}  );
 ab.addEventListener("click",function () {
-    playMove(a2,1) } );
+    if(gameMode === 1){
+        playMove(a2,1) } 
+        else if(gameMode === 2){
+            playMove2(a2,1) }}  );
 ac.addEventListener("click",function () {
-    playMove(a3,2) } );
+    if(gameMode === 1){
+        playMove(a3,2) } 
+        else if(gameMode === 2){
+            playMove2(a3,2) }}  );
 ba.addEventListener("click",function () {
-    playMove(b1,3) } );
+    if(gameMode === 1){
+        playMove(b1,3) } 
+        else if(gameMode === 2){
+            playMove2(b1,3) }}  );
 bb.addEventListener("click",function () {
-    playMove(b2,4) } );
+    if(gameMode === 1){
+        playMove(b2,4) } 
+        else if(gameMode === 2){
+            playMove2(b2,4) }}  );
 bc.addEventListener("click",function () {
-    playMove(b3,5) } );
+    if(gameMode === 1){
+        playMove(b3,5) } 
+        else if(gameMode === 2){
+            playMove2(b3,5) }}  );
 ca.addEventListener("click",function () {
-    playMove(c1,6) } );
+    if(gameMode === 1){
+        playMove(c1,6) } 
+        else if(gameMode === 2){
+            playMove2(c1,6) }}  );
 cb.addEventListener("click",function () {
-    playMove(c2,7) } );
+    if(gameMode === 1){
+        playMove(c2,7) } 
+        else if(gameMode === 2){
+            playMove2(c2,7) }}  );
 cc.addEventListener("click",function () {
-    playMove(c3,8) } );
+    if(gameMode === 1){
+    playMove(c3,8) } 
+    else if(gameMode === 2){
+        playMove2(c3,8) }} );
+
+let areaArray = [a1,a2,a3,b1,b2,b3,c1,c2,c3];
+
+    function randomComp(){
+        if (gameWon === false){
+            winGame('X')
+        let value = 'O'
+        let random = Math.floor(Math.random() * areaArray.length)  ;
+        let selected = currentValues[random];
+        if(selected === ''){
+            currentValues[random] = value;
+            let area = areaArray[random]
+            area.textContent = 'O'
+            counter++;
+            winGame('O')
+        } else if (counter != 9){
+            randomComp();
+        }
+    } else {
+        clearBoard()
+}
+}
+
+function scoreTrack(player){
+ if (player === 'player'){
+    playerScore++;
+    playerScoreText.textContent = `Player: ${playerScore}`
+ } else if (player === 'computer'){
+    computerScore++;
+    computerScoreText.textContent = `Computer: ${computerScore}`
+ }
+}
