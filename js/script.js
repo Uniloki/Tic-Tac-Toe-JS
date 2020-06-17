@@ -23,20 +23,83 @@ let ca = document.getElementById('ca');
 let cb = document.getElementById('cb');
 let cc = document.getElementById('cc');
 
-
+let gameText = document.getElementById('gameText');
+let isWon = false;
 let counter = 0;
 function playMove(clicked,value){
 if(currentValues[value] != 'X' && currentValues[value] != 'O') {
+    let player;
     if(counter % 2 === 0){
+        player = 'X';
         currentValues[value] = 'X'
+        gameText.textContent = ""
+        //Test code to clear game text
     } else{
-        currentValues[value] = 'O'
+        player = 'O';
+        currentValues[value] = 'O'   
     }
     let newText = currentValues[value];
-    console.log (newText);
     clicked.textContent = newText;
     counter ++;
+    console.log(currentValues[0] + currentValues[1] + currentValues[2] );
+    winGame(player);
+    if(counter === 9){
+        tiedGame();
+        winGame(player);
+        clearBoard();
+    }
 }
+}
+
+function clearBoard(){
+    a1.textContent = '';
+    a2.textContent = '';
+    a3.textContent = '';
+    b1.textContent = '';
+    b2.textContent = '';
+    b3.textContent = '';
+    c1.textContent = '';
+    c2.textContent = '';
+    c3.textContent = '';
+    currentValues = ['','','',
+                    '','','',
+                    '','',''];
+    counter= 0;
+}
+
+function winGame(currentVal){
+    let row1 = currentValues[0] + currentValues[1] + currentValues[2];
+    let row2 = currentValues[3] + currentValues[4] + currentValues[5];
+    let row3 = currentValues[6] + currentValues[7] + currentValues[8];
+    let column1 = currentValues[0] + currentValues[3] + currentValues[6];
+    let column2 = currentValues[1] + currentValues[4] + currentValues[7];
+    let column3 = currentValues[2] + currentValues[5] + currentValues[8];
+    let diagon1 = currentValues[0] + currentValues[4] + currentValues[8];
+    let diagon2 = currentValues[2] + currentValues[4] + currentValues[6];
+    if(row1 == "XXX"    ||
+       row1 == "OOO"    ||
+       row2 == "XXX"    ||
+       row2 == "OOO"    ||
+       row3 == "XXX"    ||
+       row3 == "OOO"    ||
+       column1 == "XXX" ||
+       column1 == "OOO" ||
+       column2 == "XXX" ||
+       column2 == "OOO" ||
+       column3 == "XXX" ||
+       column3 == "OOO" ||
+       diagon1 == "XXX" ||
+       diagon1 == "OOO" ||
+       diagon2 == "XXX" ||
+       diagon2 == "OOO" 
+       ){
+        gameText.textContent = `${currentVal} wins!`
+        clearBoard();
+    }
+}
+
+function tiedGame(){
+    gameText.textContent = "You tied!"
 }
 
 
